@@ -1,0 +1,35 @@
+{
+    "name": "meteoconcept/omnipay-sogenactif1",
+    "type": "library",
+    "description": "Driver for the old Sogenactif 1.0 payment processing library",
+    "keywords": [
+        "sogenactif",
+        "gateway",
+        "merchant",
+        "omnipay",
+        "pay",
+        "payment"
+    ],
+    "homepage": "https://github.com/meteoconcept/omnipay-sogenactif",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Laurent Georget",
+            "email": "laurent.georget@meteo-concept.fr"
+        },
+        {
+            "name": "Omnipay Contributors",
+            "homepage": "https://github.com/thephpleague/omnipay-dummy/contributors"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Omnipay\\Sogenactif1\\" : "src/" }
+    },
+    "require": {
+        "omnipay/common": "~3.0"
+    },
+    "require-dev": {
+        "omnipay/tests": "~3.0"
+    },
+    "prefer-stable": true
+}
