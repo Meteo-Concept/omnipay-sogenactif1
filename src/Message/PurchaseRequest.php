@@ -24,6 +24,7 @@ class PurchaseRequest extends AbstractSogenactif1Request
     {
         $this->validate(
             'pathFile',
+            'transactionsPrefix',
             'merchantId',
             'merchantCountry',
             'amount',
@@ -40,7 +41,7 @@ class PurchaseRequest extends AbstractSogenactif1Request
 
         $params = "pathfile=" . escapeshellcmd($this->getPathFile()) . " ";
         $params .= "transaction_id=" . date('His') . " ";
-        $params .= "order_id=" . escapeshellcmd($this->getTransactionId()) . " ";
+        $params .= "order_id=" . escapeshellcmd($ths->getTransactionPrefix() . $this->getTransactionId()) . " ";
         $params .= "merchant_id=" . escapeshellcmd($this->getMerchantId()) . " ";
         $params .= "amount=" . escapeshellcmd($this->getAmountInteger()) . " ";
         $params .= "currency_code=" . escapeshellcmd(self::availableCurrencies[$this->getCurrency()]) . " ";

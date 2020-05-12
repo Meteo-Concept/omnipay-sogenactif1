@@ -79,6 +79,16 @@ abstract class AbstractSogenactif1Request extends AbstractRequest
         return $this->setParameter('pathFile', $value);
     }
 
+    public function getTransactionPrefix()
+    {
+        return $this->getParameter('transactionPrefix');
+    }
+
+    public function setTransactionPrefix($value)
+    {
+        return $this->setParameter('transactionPrefix', preg_replace('/[^A-Za-z0-9\-]/', '', $value));
+    }
+
     public function getRequestBinaryPath()
     {
         $requestBinary = $this->getParameter('requestBinary');

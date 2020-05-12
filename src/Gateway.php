@@ -75,6 +75,7 @@ class Gateway extends AbstractGateway
             'sogenactifBinaryDir' => null,
             'language' => 'fr',
             'paymentMeans' => 'CB,2,VISA,2,MASTERCARD,2',
+            'transactionPrefix' => '',
         ));
         return $parameters;
     }
@@ -87,6 +88,16 @@ class Gateway extends AbstractGateway
     public function setPathFile($value)
     {
         return $this->setParameter('pathFile', $value);
+    }
+
+    public function getTransactionPrefix()
+    {
+        return $this->getParameter('transactionPrefix');
+    }
+
+    public function setTransactionPrefix($value)
+    {
+        return $this->setParameter('transactionPrefix', preg_replace('/[^A-Za-z0-9\-]/', '', $value));
     }
 
     public function getMerchantId()
