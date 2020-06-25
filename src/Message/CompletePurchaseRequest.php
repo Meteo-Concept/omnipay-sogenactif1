@@ -103,8 +103,9 @@ class CompletePurchaseRequest extends AbstractSogenactif1Request
             throw new InvalidRequestException("Invalid request, the API says {$data['error']}");
         }
 
-        if ($this->getTransactionId() != $data['orderId']) {
-            throw new InvalidRequestException("Invalid request, the transaction id does not match (expected {$this->getTransactionId()}, got {$data['orderId']})");
+        $prefixedTransaction = $this->getTransactionPrefix() . $this->getTransactionId();
+        if ($prefixedTransaction != $data['orderId']) {
+            throw new InvalidRequestException("Invalid request, the transaction id does not match (expected {$prefixedTransaction}, got {$data['orderId']})");
         }
 
         if (isset($data['amount']) && $this->getAmountInteger() != $data['amount']) {
