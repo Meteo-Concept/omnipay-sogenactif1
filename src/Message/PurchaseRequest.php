@@ -35,8 +35,8 @@ class PurchaseRequest extends AbstractSogenactif1Request
 
         $this->validateAmountAndCurrency();
 
-        if ($this->getReturnUrl() === null && $this->getNotifyUrl() === null) {
-            throw new \InvalidRequestException("At least one of the classic or automatic return URL must be given");
+        if ($this->getReturnUrl() === null) {
+            throw new \InvalidRequestException("The return URL must be given");
         }
 
         $params = "pathfile=" . escapeshellcmd($this->getPathFile()) . " ";
@@ -49,8 +49,8 @@ class PurchaseRequest extends AbstractSogenactif1Request
         if ($this->getCancelUrl()) {
             $params .= "cancel_return_url=" . escapeshellcmd($this->getCancelUrl()) . " ";
         }
-        if ($this->getReturnUrl()) {
-            $params .= "normal_return_url=" . escapeshellcmd($this->getReturnUrl()) . " ";
+        $params .= "normal_return_url=" . escapeshellcmd($this->getReturnUrl()) . " ";
+        if ($this->getNotifyUrl()) {
             $params .= "automatic_response_url=" . escapeshellcmd($this->getReturnUrl()) . " ";
         }
 
