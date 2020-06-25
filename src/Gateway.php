@@ -189,4 +189,12 @@ class Gateway extends AbstractGateway
     {
         return $this->createRequest('\Omnipay\Sogenactif1\Message\CompletePurchaseRequest', $parameters);
     }
+
+    public function acceptNotification(array $parameters = array())
+    {
+        // This is intentional, POST requests that come directly from the platform
+        // have the same content as redirect POST triggered by clicking on the "Continue"
+        // button, so just reuse the same Message (I mean, it should work, right?)
+        return $this->createRequest('\Omnipay\Sogenactif1\Message\CompletePurchaseRequest', $parameters);
+    }
 }
