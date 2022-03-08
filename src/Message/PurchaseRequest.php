@@ -119,4 +119,9 @@ class PurchaseRequest extends AbstractSogenactif1Request
     {
         return $this->orderId;
     }
+
+    public function getNotifyUrl()
+    {
+        return parent::getNotifyUrl() . "&amount=" . urlencode($this->getAmountInteger()) . "&reference=" . urlencode($this->getTransactionPrefix() . $this->getTransactionId());
+    }
 }
