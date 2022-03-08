@@ -49,6 +49,11 @@ class PurchaseResponse extends AbstractResponse implements RedirectResponseInter
         return $this->request->getTransactionId();
     }
 
+    public function getTransactionReference()
+    {
+        return $this->request->getTransactionReference();
+    }
+
     public function getRedirectMethod()
     {
         return $this->method;

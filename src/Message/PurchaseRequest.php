@@ -15,9 +15,12 @@ use Symfony\Component\HttpFoundation\Request as HttpRequest;
  */
 class PurchaseRequest extends AbstractSogenactif1Request
 {
+    private $orderId;
+
     public function __construct(ClientInterface $httpClient, HttpRequest $httpRequest)
     {
         parent::__construct($httpClient, $httpRequest);
+        $this->orderId = date('His');
     }
 
     public function getData()
@@ -40,7 +43,7 @@ class PurchaseRequest extends AbstractSogenactif1Request
         }
 
         $params = "pathfile=" . escapeshellcmd($this->getPathFile()) . " ";
-        $params .= "transaction_id=" . date('His') . " ";
+        $params .= "transaction_id=" . $this->getTransactionReference() . " ";
         $params .= "order_id=" . escapeshellcmd($this->getTransactionPrefix() . $this->getTransactionId()) . " ";
         $params .= "merchant_id=" . escapeshellcmd($this->getMerchantId()) . " ";
         $params .= "amount=" . escapeshellcmd($this->getAmountInteger()) . " ";
@@ -51,7 +54,7 @@ class PurchaseRequest extends AbstractSogenactif1Request
         }
         $params .= "normal_return_url=" . escapeshellcmd($this->getReturnUrl()) . " ";
         if ($this->getNotifyUrl()) {
-            $params .= "automatic_response_url=" . escapeshellcmd($this->getReturnUrl()) . " ";
+            $params .= "automatic_response_url=" . escapeshellcmd($this->getNotifyUrl()) . " ";
         }
 
         $params .= "language=" . escapeshellcmd($this->getLanguage() && isset(self::availableLanguages[$this->getLanguage()]) ? $this->getLanguage() : "fr") . " ";
@@ -110,5 +113,10 @@ class PurchaseRequest extends AbstractSogenactif1Request
         }
 
         return new PurchaseResponse($this, $doc, $code, $errorMessage, $params, $formUrl, $formMethod);
+    }
+
+    public function getTransactionReference()
+    {
+        return $this->orderId;
     }
 }

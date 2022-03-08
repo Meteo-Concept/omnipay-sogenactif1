@@ -104,11 +104,11 @@ class CompletePurchaseRequest extends AbstractSogenactif1Request
         }
 
         $prefixedTransaction = $this->getTransactionPrefix() . $this->getTransactionId();
-        if ($prefixedTransaction != $data['orderId']) {
+        if (isset($data['orderId']) && $prefixedTransaction !== $data['orderId']) {
             throw new InvalidRequestException("Invalid request, the transaction id does not match (expected {$prefixedTransaction}, got {$data['orderId']})");
         }
 
-        if (isset($data['amount']) && $this->getAmountInteger() != $data['amount']) {
+        if (isset($data['amount']) && $this->getAmountInteger() !== intval($data['amount'])) {
             throw new InvalidRequestException("Invalid request, the order id matches but the amount does NOT (expected {$this->getAmountInteger()} got {$data['amount']})");
         }
 
