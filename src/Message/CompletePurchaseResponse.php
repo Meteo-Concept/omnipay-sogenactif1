@@ -2,7 +2,7 @@
 namespace Omnipay\Sogenactif1\Message;
 
 use Omnipay\Common\Message\AbstractResponse;
-use Omnipay\Common\Message\RequestInterface;
+use Omnipay\Common\Message\NotificationInterface;
 use Omnipay\Common\Message\RedirectResponseInterface;
 
 /**
@@ -12,7 +12,7 @@ use Omnipay\Common\Message\RedirectResponseInterface;
  *
  * @see \Omnipay\Sogenactif1\Gateway
  */
-class CompletePurchaseResponse extends AbstractResponse implements RedirectResponseInterface
+class CompletePurchaseResponse extends AbstractResponse implements RedirectResponseInterface, NotificationInterface
 {
     const bankResponseCodes = [
         '00' => 'Success',
@@ -63,12 +63,20 @@ class CompletePurchaseResponse extends AbstractResponse implements RedirectRespo
 
     public function getTransactionId()
     {
-        return $this->request->getTransactionId();
+        return $this->request->getTransactionId() ?? $this->data['orderId'];
     }
 
     public function getTransactionReference()
     {
         return isset($this->data['transactionReference']) ? $this->data['transactionReference'] : null;
+    }
+
+    public function getTransactionStatus()
+    {
+        if ($this->isSuccessful())
+            return static::STATUS_COMPLETED;
+        else
+            return static::STATUS_FAILED;
     }
 
     public function getCode()

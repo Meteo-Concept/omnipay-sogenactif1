@@ -4,6 +4,7 @@ namespace Omnipay\Sogenactif1\Message;
 use Omnipay\Common\Message\AbstractRequest;
 use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\Http\ClientInterface;
+use Omnipay\Common\Message\ResponseInterface;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 
 /**
@@ -39,7 +40,7 @@ class PurchaseRequest extends AbstractSogenactif1Request
         $this->validateAmountAndCurrency();
 
         if ($this->getReturnUrl() === null) {
-            throw new \InvalidRequestException("The return URL must be given");
+            throw new InvalidRequestException("The return URL must be given");
         }
 
         $params = "pathfile=" . escapeshellcmd($this->getPathFile()) . " ";
@@ -118,10 +119,5 @@ class PurchaseRequest extends AbstractSogenactif1Request
     public function getTransactionReference()
     {
         return $this->orderId;
-    }
-
-    public function getNotifyUrl()
-    {
-        return parent::getNotifyUrl() . "&amount=" . urlencode($this->getAmountInteger()) . "&reference=" . urlencode($this->getTransactionPrefix() . $this->getTransactionId());
     }
 }

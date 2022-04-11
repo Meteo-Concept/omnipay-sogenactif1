@@ -81,21 +81,6 @@ class CompletePurchaseRequest extends AbstractSogenactif1Request
             throw new InvalidRequestException('Invalid request, no parameter DATA in the body');
         }
 
-        $transactionId = $this->httpRequest->query->get('orderid');
-        if (!isset($transactionId)) {
-            throw new InvalidRequestException('Invalid request, the transaction id is expected to be part of the query');
-        }
-
-        $reference = $this->httpRequest->query->get('reference');
-        if (!isset($reference)) {
-            throw new InvalidRequestException('Invalid request, the transaction reference is expected to be part of the query');
-        }
-
-        $amount = $this->httpRequest->query->get('amount');
-        if (!isset($amount)) {
-            throw new InvalidRequestException('Invalid request, the amount is expected to be part of the query');
-        }
-
         $params = "message=$encodedData pathfile={$this->getPathFile()}";
 
         $responseBinary = $this->getResponseBinaryPath();
@@ -113,18 +98,6 @@ class CompletePurchaseRequest extends AbstractSogenactif1Request
 
         if ($data['code'] != 0) {
             throw new InvalidRequestException("Invalid request, the API says {$data['error']}");
-        }
-
-        if (isset($data['orderId']) && $transactionId !== $data['orderId']) {
-            throw new InvalidRequestException("Invalid request, the transaction id does not match (expected {$transactionId}, got {$data['orderId']})");
-        }
-
-        if (isset($data['transactionReference']) && $reference !== $data['transactionReference']) {
-            throw new InvalidRequestException("Invalid request, the transaction reference does not match (expected {$reference}, got {$data['transactionReference']})");
-        }
-
-        if (isset($data['amount']) && $amount !== $data['amount']) {
-            throw new InvalidRequestException("Invalid request, the order id matches but the amount does NOT (expected {$this->getAmountInteger()} got {$data['amount']})");
         }
 
         return $data;

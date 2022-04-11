@@ -26,6 +26,7 @@
         "psr-4": { "Omnipay\\Sogenactif1\\" : "src/" }
     },
     "require": {
+        "ext-dom": "*",
         "omnipay/common": "~3.0"
     },
     "require-dev": {
