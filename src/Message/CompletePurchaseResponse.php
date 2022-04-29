@@ -12,9 +12,11 @@ use Omnipay\Common\Message\RedirectResponseInterface;
  *
  * @see \Omnipay\Sogenactif1\Gateway
  */
-class CompletePurchaseResponse extends AbstractResponse implements RedirectResponseInterface, NotificationInterface
+class CompletePurchaseResponse extends AbstractResponse implements RedirectResponseInterface
 {
-    const bankResponseCodes = [
+    use ResponseTrait;
+
+    const BANK_RESPONSE_CODES = [
         '00' => 'Success',
         '02' => 'Contact the card emitter',
         '03' => 'Invalid acceptor',
@@ -51,11 +53,6 @@ class CompletePurchaseResponse extends AbstractResponse implements RedirectRespo
         'A1' => '3-D Secure authentication data missing',
     ];
 
-    public function isSuccessful()
-    {
-        return $this->data['code'] == 0 && $this->data['bankResponseCode'] == '00';
-    }
-
     public function isRedirect()
     {
         return false;
@@ -64,36 +61,5 @@ class CompletePurchaseResponse extends AbstractResponse implements RedirectRespo
     public function getTransactionId()
     {
         return $this->request->getTransactionId() ?? $this->data['orderId'];
-    }
-
-    public function getTransactionReference()
-    {
-        return isset($this->data['transactionReference']) ? $this->data['transactionReference'] : null;
-    }
-
-    public function getTransactionStatus()
-    {
-        if ($this->isSuccessful())
-            return static::STATUS_COMPLETED;
-        else
-            return static::STATUS_FAILED;
-    }
-
-    public function getCode()
-    {
-        return $this->data['code'];
-    }
-
-    public function getReasonCode()
-    {
-        return isset($this->data['bankResponseCode']) ? $this->data['bankResponseCode'] : null;
-    }
-
-    public function getMessage()
-    {
-        if (isset(self::bankResponseCodes[$this->data['bankResponseCode']]))
-            return self::bankResponseCodes[$this->data['bankResponseCode']];
-        else
-            return null;
     }
 }
