@@ -2,7 +2,9 @@
 
 namespace Omnipay\Sogenactif1\Message;
 
-class Notification implements \Omnipay\Common\Message\NotificationInterface
+use Omnipay\Common\Message\AbstractRequest;
+
+class Notification extends AbstractRequest implements \Omnipay\Common\Message\NotificationInterface
 {
     use ResponseTrait;
 
@@ -12,5 +14,11 @@ class Notification implements \Omnipay\Common\Message\NotificationInterface
     public function getData()
     {
         return $this->parseResponse();
+    }
+
+    public function sendData($data)
+    {
+        // The notification is self-sufficient, it contains all the necessary data
+        return $this;
     }
 }
